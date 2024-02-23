@@ -309,7 +309,7 @@ All permutations equally likely."
     (or (and (eolp) (not (bolp)))
         (progn (forward-line -1) (end-of-line)))
     (setq end (point-marker))
-    (let ((strs (shuffle-list 
+    (let ((strs (shuffle-list
                  (split-string (buffer-substring-no-properties beg end)
                              "\n"))))
       (delete-region beg end)
@@ -455,3 +455,21 @@ All permutations equally likely."
 (define-key rust-mode-map (kbd "C-c C-r") 'rust-run)
 (define-key rust-mode-map (kbd "C-c C-k") 'rust-run-clippy)
 (define-key rust-mode-map (kbd "C-c C-c") 'rust-compile)
+
+
+;;; RUN MAKE make
+
+(global-set-key (kbd "C-x C-m C-m") 'compile)
+
+
+;;; ntfy
+
+(defun send-region-to-api (start end)
+  "Send the current region to an API using curl."
+  (interactive "r")
+  (let ((region-text (buffer-substring-no-properties start end))
+        (api-url (concat "https://ntfy.sh/" (getenv "NTFY_SERVER"))))
+    (shell-command
+     (format "curl -X POST -H 'Content-Type: application/json' -d \"\"\"%s\"\"\" '%s'"
+             region-text
+             api-url))))

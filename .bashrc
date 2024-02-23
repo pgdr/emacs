@@ -356,7 +356,11 @@ export EDITOR=emacs
 export VISUAL=emacs
 
 alias whisper=/scratch/whisper.cpp/main
-alias ec=emacsclient
+
+# The following two ensures an Emacs daemon is always running
+
+export ALTERNATE_EDITOR=""
+alias ec="emacsclient --create-frame"
 
 function ntff () {
     curl -T $1  -H "Filename: $1" ntfy.sh/${NTFY_SERVER}
